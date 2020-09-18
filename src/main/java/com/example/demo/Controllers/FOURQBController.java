@@ -17,9 +17,17 @@ public class FOURQBController {
     FOURQBService fourqbService;
 
     @CrossOrigin
-    @RequestMapping(value = "getvenues", method = RequestMethod.GET)
-    public ResponseEntity<Map<String, String>> getData() throws IOException, ParseException {
-        return new ResponseEntity<>(fourqbService.getVenues(), HttpStatus.OK);
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public ResponseEntity<String> home()
+            throws IOException, ParseException {
+        return new ResponseEntity<>("Home", HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "getvenues/{venueplace}/{venuetype}", method = RequestMethod.GET)
+    public ResponseEntity<Map<String, String>> getData(@PathVariable("venueplace")String venuePlace, @PathVariable("venuetype")String venueType)
+            throws IOException, ParseException {
+        return new ResponseEntity<>(fourqbService.getVenues(venuePlace, venueType), HttpStatus.OK);
     }
 
     @CrossOrigin

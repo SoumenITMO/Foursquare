@@ -22,13 +22,11 @@ public class FOURQBService {
 
     private final String clientId = "1QXTPQ42H0V5IU2OY5NKRLBG3YPEF23EXSO5LXMAIDPGJYOZ";
     private final String clientSecret = "N42BLXDGCUPO14RQHVMTPSEDMNAF41WLXC0UWCD03CHJMCVS";
-    private final String venuType = "sushi";
-    private final String searchPlace = "tartu";
 
-    public Map<String, String> getVenues() throws IOException, ParseException {
+    public Map<String, String> getVenues(String venuePlace, String venueType) throws IOException, ParseException {
 
         Map<String, String> venue = new HashMap<>();
-        String venuesurl = "https://api.foursquare.com/v2/venues/search?near=" + searchPlace + "&query="+ venuType +
+        String venuesurl = "https://api.foursquare.com/v2/venues/search?near=" + venuePlace + "&query="+ venueType +
                 "&client_id=" + clientId + "&client_secret="+ clientSecret +"&v=20190101";
 
         JSONObject parseResponse = (JSONObject) getJsonData(venuesurl).get("response");
