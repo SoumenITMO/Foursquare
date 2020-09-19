@@ -22,35 +22,33 @@ public class FOURQBService {
 
     private final String clientId = "1QXTPQ42H0V5IU2OY5NKRLBG3YPEF23EXSO5LXMAIDPGJYOZ";
     private final String clientSecret = "N42BLXDGCUPO14RQHVMTPSEDMNAF41WLXC0UWCD03CHJMCVS";
+    private final String token = "O5MZY2JJA3042NS03RF5HNBW2TYNMOYE4KSVLFZ0PN5SVOXY";
 
     public Map<String, String> getVenues(String venuePlace, String venueType) throws IOException, ParseException {
 
         Map<String, String> venue = new HashMap<>();
         String venuesurl = "https://api.foursquare.com/v2/venues/search?near=" + venuePlace + "&query="+ venueType +
-                "&client_id=" + clientId + "&client_secret="+ clientSecret +"&v=20190101";
-
+                "&oauth_token="+ token +"&v=20200919";
         JSONObject parseResponse = (JSONObject) getJsonData(venuesurl).get("response");
         JSONArray venuesArray = (JSONArray) parseResponse.get("venues");
-
         venuesArray.forEach(venueData -> {
             JSONObject parseVenue = (JSONObject) venueData;
             venue.put(parseVenue.get("name").toString(), parseVenue.get("id").toString());
         });
+
         return venue;
     }
 
     public VenuePictures getPictures(String venueId) throws IOException, ParseException {
 
         List<String> pictures = new ArrayList<>();
-        String searchVenueImages = "https://api.foursquare.com/v2/venues/" + venueId + "/photos?client_id=" + clientId +
-                "&client_secret=" + clientSecret + "&v=20190101&group=venue&limit=10";
-
+        String searchVenueImages = "https://api.foursquare.com/v2/venues/" + venueId + "/photos?&oauth_token=" +
+                token + "&v=20200919";
         VenuePictures venuePictures = new VenuePictures();
         JSONObject parseResponse = (JSONObject) getJsonData(searchVenueImages).get("response");
         JSONObject getPhotos = (JSONObject) parseResponse.get("photos");
         int count = Integer.parseInt(getPhotos.get("count").toString());
         JSONArray getItems = (JSONArray) getPhotos.get("items");
-
         getItems.forEach(getItem -> {
             JSONObject parseSource = (JSONObject) getItem;
             pictures.add(parseSource.get("suffix").toString().replace("/", "").trim());
