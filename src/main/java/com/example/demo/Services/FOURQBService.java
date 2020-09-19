@@ -57,6 +57,7 @@ public class FOURQBService {
         });
         venuePictures.setCount(count);
         venuePictures.setPics(pictures);
+
         return venuePictures;
     }
 
@@ -64,13 +65,12 @@ public class FOURQBService {
 
         URL url = new URL(apiURL);
         URLConnection urlConn = url.openConnection();
-        InputStreamReader in = new InputStreamReader(urlConn.getInputStream(),
-                Charset.defaultCharset());
+        InputStreamReader in = new InputStreamReader(urlConn.getInputStream(), Charset.defaultCharset());
         BufferedReader bufferedReader = new BufferedReader(in);
-
         String data = bufferedReader.readLine();
         JSONParser jsonParser = new JSONParser();
         JSONObject jsonObject = (JSONObject) jsonParser.parse(data);
+
         return jsonObject;
     }
 }

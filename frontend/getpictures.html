@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+</head>
+
+<style>
+.result {
+	position: relative;
+    top: 80px;
+    left: 200px;
+    width: 82%;
+}
+
+.picblock {
+	width: 200px;
+	height: 200px;
+	padding: 2px;
+}
+</style>
+<body>
+<div id="div1"><h2>Get Venues and Their Pictures</h2></div>
+<label for="cars">Choose a venue place:</label>
+<select id="vplace">
+  <option value="tartu">Tartu</option>
+  <option value="tallinn">Tallinn</option>
+</select>
+
+<label for="cars">Choose a venue type:</label>
+<select id="vtype">
+  <option value="pizza">Pizza</option>
+  <option value="burgar">Burgar</option>
+  <option value="sushi">Sushi</option>
+</select>
+
+<button class="btn1">Get Venus</button>
+<div class="content"></div>
+<div class="picsection">
+	<div class="result"> 
+		<span class="count"></span> 
+		<div class="pics">
+			
+		</div>
+	</div>
+</div>
+</body>
+</html>
+
+<script>
+$(document).ready(function(){
+  var html = "";
+  var venuetype = "pizza";
+  var venueplace = "tartu";
+  
+  $("#vtype").change(function() {
+	venuetype = $(this).val();
+  });
+  
+  $("#vplace").change(function() {
+	venueplace = $(this).val();
+  });
+  
+  $(".btn1").click(function(){
+	html = "";
+    $.ajax({
+	  url: "http://localhost:8080/getvenues/"+venueplace+"/"+venuetype, 
+	  type: "GET",
+	  success: function(result) {	
+			html += '<div class = "row">'; 
+			$.each(result, function(venueName, venueId) {
+				html += '<div class = "col-sm-6 col-md-3">'; 
+				html += '<a href = "#" class = "thumbnail">'; 
+				html += '<div class="venue" venue-id="'+venueId+'">';
+				html += '<h4>' + venueName + '</h4>';
+				html += '</div>';
+				html += '</a>'; 
+				html += '</div>';
+			});
+		html += '</div>';
+		$(".content").html(html);
+		}
+	});
+  });
+  
+  $(document).on("click", ".content .row .venue" ,function() {
+	getPictures($(this).attr("venue-id"));
+  });
+  
+  function getPictures(venueid) {
+	venuepictures = "";
+	$.ajax({
+	  url: "http://localhost:8080/getpic/" + venueid, 
+	  type: "GET",
+	  success: function(result) {
+	    $(".count").html("Number of result : " + result.count);
+		$.each(result.pics, function(index, pic) { 
+			venuepictures += "<div class='picblock'><img src=https://igx.4sqi.net/img/general/310x310/"+pic+"></div>";
+		});
+		$(".pics").html(venuepictures);
+	  }
+	});
+  }
+});
+</script>
