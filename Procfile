@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -cp target/classes:target/dependency/* target/classes/com/example/demo/QvbapiApplication
+web: java $JAVA_OPTS -cp target/classes:target/dependency/* /target/classes/com/example/demo/QvbapiApplication
