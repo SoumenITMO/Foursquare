@@ -13,7 +13,7 @@ public class QvbapiApplication extends SpringBootServletInitializer {
         return application.sources(QvbapiApplication.class);
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         SpringApplication.run(QvbapiApplication.class, args);
     }
 
