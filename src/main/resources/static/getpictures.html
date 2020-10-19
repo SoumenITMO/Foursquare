@@ -64,7 +64,7 @@ $(document).ready(function(){
   $(".btn1").click(function(){
 	html = "";
     $.ajax({
-	  url: "http://localhost:8080/getvenues/"+venueplace+"/"+venuetype, 
+	  url: "https://foursquarepic.herokuapp.com/getvenues/"+venueplace+"/"+venuetype,
 	  type: "GET",
 	  success: function(result) {	
 			html += '<div class = "row">'; 
@@ -90,7 +90,7 @@ $(document).ready(function(){
   function getPictures(venueid) {
 	venuepictures = "";
 	$.ajax({
-	  url: "http://localhost:8080/getpic/" + venueid, 
+	  url: "https://foursquarepic.herokuapp.com/getpic/" + venueid,
 	  type: "GET",
 	  success: function(result) {
 	    $(".count").html("Number of result : " + result.count);
